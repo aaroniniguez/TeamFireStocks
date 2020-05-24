@@ -60,8 +60,9 @@ app.get('/', asyncHandler(async function(req, res) {
 	res.sendFile(__dirname + "/index.html");
 	return;
 }));
+
 app.get("/.well-known/acme-challenge/:id", function(req, res) {
-	res.sendFile(baseLocation+'/.well-known/acme-challenge/'+req.params.id);
+	res.sendFile(__dirname+'/.well-known/acme-challenge/'+req.params.id);
 });
 //Test Request Endpoint
 app.get('/test.php', asyncHandler(async function(req, res) {
