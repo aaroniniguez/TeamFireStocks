@@ -75,7 +75,12 @@
       </div>
       <hr>
       <footer>
-        <p>&copy; www.teamfirestocks.com 2019</p>
+        <p class="yearDate">&copy; www.teamfirestocks.com 
+          <script>
+            var d = new Date().getFullYear();
+            document.getElementsByClassName("yearDate")[0].appendChild(document.createTextNode(d));
+          </script>
+        </p>
       </footer>
     </div>
     <!-- Bootstrap core JavaScript
