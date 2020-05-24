@@ -32,14 +32,11 @@ const asyncHandler = fn =>
 let app = express();
 //app.use(express.static("/home/ec2-user/ReactWebsite/"));
 app.use("/me", function(req, res, next) {
-	console.log(req.url);
 	next();
 });
 app.use("/me", express.static("/home/ec2-user/ReactWebsite/me/build"));
-app.use("/images", express.static("/home/ec2-user/ReactWebsite/me/build/images"));
-app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+app.use("/images", express.static("/home/ec2-user/NodeServer/images"));
+app.use("/css", express.static("/home/ec2-user/NodeServer/css"));
 
 app.response.savedSend = app.response.send;
 app.response.send = function(data){
@@ -59,14 +56,17 @@ app.use(function (req, res, next) {
 	next();
 });
 
+app.get('/', asyncHandler(async function(req, res) {
+	res.sendFile(__dirname + "/index.html");
+	return;
+}));
 //Test Request Endpoint
 app.get('/test.php', asyncHandler(async function(req, res) {
 	res.type("json");
 	res.send(`{"live":"success"}`);
-	res.end();
 	return;
 }));
-var portNumber = 3000;
+var portNumber = 80;
 let server = app.listen(portNumber, function() {  
 	console.log("Server is listening on port " + portNumber);
 });

@@ -1,0 +1,50 @@
+body {
+
+  padding-top: 120px;
+  padding-bottom: 20px;
+}
+
+
+.navbar, .container {
+width: 960px;
+margin:0px auto;
+}
+
+.jumbotron {
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+}
+
+.remove-url {
+
+cursor: pointer; 
+cursor: hand; 
+
+}
+
+.navbar {
+height:120px;
+}
+
+
+
+.navbar-inverse {
+background-image: url(http://teamfirestocks.com/images/FIRE-logo.png);
+background-repeat:no-repeat;
+background-color:#FFF;
+/*border: 1px solid #068206;*/
+border: 1px solid #FFF;
+background-size: 150px;
+}
+
+#logo {
+font-family: 'Bitter';
+font-style: italic;
+text-align: left;
+margin: 95px 30px;
+width:240px;
+font-size:15px;
+color:#068206;
+}
