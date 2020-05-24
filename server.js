@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const http = require('http');
+const https = require('https');
 
 function isEmptyObject(obj) {
   return !Object.keys(obj).length;
@@ -30,7 +32,6 @@ const asyncHandler = fn =>
 	
 //Define app
 let app = express();
-//app.use(express.static("/home/ec2-user/ReactWebsite/"));
 app.all('*', (req, res, next) => {
 	if(req.protocol === 'https')
 		next();
@@ -70,7 +71,7 @@ app.get('/', asyncHandler(async function(req, res) {
 // Certificate
 const certKeyFolder = "/etc/letsencrypt/live/teamfirestocks.com/";
 const privateKey = fs.readFileSync(certKeyFolder+'privkey.pem', 'utf8');
-const certificate = fs.readFileSync(certKeyFolder+'/cert.pem', 'utf8');
+const certificate = fs.readFileSync(certKeyFolder+'cert.pem', 'utf8');
 const ca = fs.readFileSync(certKeyFolder+'chain.pem', 'utf8');
 const credentials = {
 	key: privateKey,
