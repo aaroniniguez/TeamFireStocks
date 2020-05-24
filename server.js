@@ -31,6 +31,12 @@ const asyncHandler = fn =>
 //Define app
 let app = express();
 //app.use(express.static("/home/ec2-user/ReactWebsite/"));
+app.all('*', (req, res, next) => {
+	if(req.protocol === 'https')
+		next();
+	else
+		return res.redirect("https://" + req.hostname + req.originalUrl);
+});
 app.use("/me", function(req, res, next) {
 	next();
 });
@@ -61,6 +67,17 @@ app.get('/', asyncHandler(async function(req, res) {
 	return;
 }));
 
+// Certificate
+const certKeyFolder = "/etc/letsencrypt/live/teamfirestocks.com/";
+const privateKey = fs.readFileSync(certKeyFolder+'privkey.pem', 'utf8');
+const certificate = fs.readFileSync(certKeyFolder+'/cert.pem', 'utf8');
+const ca = fs.readFileSync(certKeyFolder+'chain.pem', 'utf8');
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+
 app.get("/.well-known/acme-challenge/:id", function(req, res) {
 	res.sendFile(__dirname+'/.well-known/acme-challenge/'+req.params.id);
 });
@@ -70,7 +87,5 @@ app.get('/test.php', asyncHandler(async function(req, res) {
 	res.send(`{"live":"success"}`);
 	return;
 }));
-var portNumber = 80;
-let server = app.listen(portNumber, function() {  
-	console.log("Server is listening on port " + portNumber);
-});
+const httpServer = http.createServer(app).listen(80);
+const httpsServer = https.createServer(credentials, app).listen(443);
